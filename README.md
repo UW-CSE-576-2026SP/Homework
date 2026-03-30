@@ -12,15 +12,7 @@ cd Homework
 and check to see that everything runs correctly. We recommend using Linux or MacOS for the homework for a smoother setup.
 
 ## Due Dates
-** HW1 is due on April 8 (11:59 pm).**
-
-** HW2 is due on April 17 (11:59 pm).**
-
-** HW3 is due on May 1 (11:59 pm).**
-
-** HW4 is due on May 8 (11:59 pm).**
-
-** HW5 is due on May 20 (11:59 pm).**
+** HW1 is due on April 13 (11:59 pm).**
 
 ## Get started on HW1
 
