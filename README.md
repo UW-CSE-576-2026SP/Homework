@@ -5,7 +5,7 @@ In this repository, you will find instructions on how to build your own image pr
 To get started, make sure you have `git` and Python installed. Then run:
 
 ```
-git clone https://github.com/UW-CSE-576-2024SP/Homework.git
+git clone https://github.com/UW-CSE-576-2026SP/Homework.git
 cd Homework
 ```
 
