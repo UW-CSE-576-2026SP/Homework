@@ -2,6 +2,7 @@ import os
 import inspect
 import numpy as np
 
+import uwimg
 from uwimg import Image, load_image, make_image, free_image, save_png
 from src.hw1.process_image import get_pixel, set_pixel
 from src.hw6.flow_image import (
@@ -13,6 +14,16 @@ from src.hw6.flow_image import (
 
 EPS = 0.005
 PRINT_PASSES = True
+
+
+def _gt(path: str) -> str:
+	"""Return .pillow variant when visionlib is unavailable."""
+	if uwimg._vision is None:
+		base, ext = os.path.splitext(path)
+		alt = base + ".pillow" + ext
+		if os.path.exists(alt):
+			return alt
+	return path
 
 tests_total = 0
 tests_fail = 0
@@ -146,7 +157,7 @@ def test_exact_box_filter_image() -> None:
 
 	dog = load_image("data/dog.jpg")
 	smooth = box_filter_image(dog, 15)
-	smooth_t = load_image("data/dogbox.png")
+	smooth_t = load_image(_gt("data/dogbox.png"))
 	TEST(same_image(smooth, smooth_t, EPS * 2), "same_image(smooth, smooth_t, EPS*2)")
 
 	free_image(dog)
@@ -161,7 +172,7 @@ def test_good_enough_box_filter_image() -> None:
 	dog = load_image("data/dog.jpg")
 	smooth = box_filter_image(dog, 15)
 	smooth_c = center_crop(smooth)
-	smooth_t = load_image("data/dogboxcenter.png")
+	smooth_t = load_image(_gt("data/dogboxcenter.png"))
 	print(f"avg origin difference test: {avg_diff(smooth_c, center_crop(dog))}")
 	print(f"avg smooth difference test: {avg_diff(smooth_c, smooth_t)}")
 	TEST(same_image(smooth_c, smooth_t, EPS * 2), "same_image(smooth_c, smooth_t, EPS*2)")
@@ -179,7 +190,7 @@ def test_structure_image() -> None:
 	doga = load_image("data/dog_a_small.jpg")
 	dogb = load_image("data/dog_b_small.jpg")
 	structure = time_structure_matrix(dogb, doga, 15)
-	structure_t = load_image_binary("data/structure.bin")
+	structure_t = load_image_binary(_gt("data/structure.bin"))
 	TEST(
 		same_image(center_crop(structure), center_crop(structure_t), EPS),
 		"same_image(center_crop(structure), center_crop(structure_t), EPS)",
@@ -195,9 +206,9 @@ def test_velocity_image() -> None:
 	global _current_test_name
 	_current_test_name = "test_velocity_image"
 
-	structure = load_image_binary("data/structure.bin")
+	structure = load_image_binary(_gt("data/structure.bin"))
 	velocity = velocity_image(structure, 5)
-	velocity_t = load_image_binary("data/velocity.bin")
+	velocity_t = load_image_binary(_gt("data/velocity.bin"))
 	TEST(same_image(velocity, velocity_t, EPS), "same_image(velocity, velocity_t, EPS)")
 
 	free_image(structure)
